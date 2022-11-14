@@ -35,13 +35,13 @@ const postsSchema = {
 // create the model based on the schema
 const Post = mongoose.model("Post", postsSchema)
 
-let posts = [];
-
 app.get("/", function(req, res){
-  res.render("home", {
-    startingContent: homeStartingContent,
-    posts: posts
-    });
+  Post.find({}, function(err, allPosts){
+    res.render("home", {
+      startingContent: homeStartingContent,
+      posts: allPosts
+      });
+  });
 });
 
 app.get("/about", function(req, res){

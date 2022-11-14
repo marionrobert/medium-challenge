@@ -68,20 +68,17 @@ app.post("/compose", function(req, res){
   });
 });
 
-app.get("/posts/:postName", function(req, res){
-  const requestedTitle = _.lowerCase(req.params.postName);
+app.get("/posts/:postId", function(req, res){
+  const requestedPostID = req.params.postId;
 
-  posts.forEach(function(post){
-    const storedTitle = _.lowerCase(post.title);
-
-    if (storedTitle === requestedTitle) {
+  Post.findById(requestedPostID, function(err, foundPost){
+    if (!err){
       res.render("post", {
-        title: post.title,
-        content: post.content
+        title: foundPost.title,
+        content: foundPost.content
       });
     }
   });
-
 });
 
 app.listen(3000, function() {
